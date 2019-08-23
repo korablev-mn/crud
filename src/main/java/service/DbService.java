@@ -1,7 +1,5 @@
 package service;
 
-import dao.DbDAO;
-import dao.Impl.DbDAOImpl;
 import dao.Impl.UserDAOImpl;
 import java.sql.Connection;
 import java.sql.Driver;
@@ -20,11 +18,6 @@ public class DbService {
             dbService = new DbService();
         }
         return dbService;
-    }
-
-    public void createTable() {
-        DbDAO dao = getDbDAO();
-        dao.createTable();
     }
 
     public static Connection getMysqlConnection() {
@@ -48,9 +41,5 @@ public class DbService {
             e.printStackTrace();
             throw new IllegalStateException();
         }
-    }
-
-    private static DbDAO getDbDAO() {
-        return new DbDAOImpl(getMysqlConnection());
     }
 }

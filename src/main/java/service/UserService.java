@@ -3,13 +3,17 @@ package service;
 import dao.Impl.UserDAOImpl;
 import dao.UserDAO;
 import model.User;
-import java.util.ArrayList;
+
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Collection;
-import java.util.List;
 
 public class UserService {
 
     private static UserService userService;
+    private final static String DB = UserDAOImpl.DB;
+    private final static String DB_TABLE = UserDAOImpl.DB_TABLE;
 
     private UserService() {
     }
@@ -45,5 +49,20 @@ public class UserService {
 
     private static UserDAO getUserDAO() {
         return new UserDAOImpl(DbService.getMysqlConnection());
+    }
+
+    public void createTable() {
+        try {
+            Connection connection = DbService.getInstance().getMysqlConnection();
+            Statement stmt = connection.createStatement();
+            stmt.execute("CREATE TABLE if not exists " + DB + "." + DB_TABLE + " (id bigint auto_increment" +
+                    ", name varchar(256) not null" +
+                    ", password VARCHAR(256) not null" +
+                    ", date DATE not null, PRIMARY KEY (id)" +
+                    ", UNIQUE INDEX `id_UNIQUE` (name ASC) VISIBLE) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8");
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

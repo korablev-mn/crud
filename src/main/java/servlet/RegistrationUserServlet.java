@@ -14,7 +14,6 @@ import java.io.IOException;
 @WebServlet(name = "RegistrationUserServlet", urlPatterns = {"/user"})
 public class RegistrationUserServlet extends HttpServlet {
 
-    DbService dbService = DbService.getInstance();
     UserService userService = UserService.getInstance();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -25,6 +24,6 @@ public class RegistrationUserServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        dbService.createTable();
+        userService.createTable();
     }
 }
