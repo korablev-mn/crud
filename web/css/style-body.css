@@ -1,0 +1,127 @@
+* {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.body-cicle {
+    max-width: 1200px;
+    min-width: 100px;
+    margin: 0 auto;
+    background: #faf6f7;
+    margin-bottom: 2px;
+    display: block;
+}
+
+.body-cicle ul li {
+    width: auto;
+    display: table-cell;
+    border-left: 1px skyblue solid;
+    border-right: 1px skyblue solid;
+    height: 15px;
+}
+
+.body-cicle ul li p {
+    display: table-cell;
+    width: 1000px;
+    vertical-align: center;
+    text-align: center;
+}
+
+.color {
+    background: cornflowerblue;
+}
+
+#edit:hover {
+    background: cornflowerblue;
+    cursor: pointer;
+}
+
+/*Поля формы*/
+/*.edit-btn {*/
+/*    padding: 0;*/
+/*    border: none;*/
+/*    font: inherit;*/
+/*    color: inherit;*/
+/*    background-color: transparent;*/
+/*    display: block;*/
+/*    float: right;*/
+/*}*/
+
+.edit-field {
+    clear: both;
+    text-align: right;
+    height: 25px;
+}
+
+.edit-field label {
+    float: left;
+}
+
+.edit-btn {
+    padding: 4px 0 4px 0;
+    margin-top: 10px;
+display: inline;
+    width: 10%;
+}
+
+#edit-form {
+    display: inline-block;
+    padding: 10px;
+    width: 360px;
+    background: skyblue;
+    vertical-align: middle;
+}
+
+#edit-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: none;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+
+#edit-message {
+    padding-bottom: 20px;
+}
+
+#edit-form-container:before {
+    display: inline-block;
+    height: 100%;
+    content: '';
+    vertical-align: middle;
+}
+
+#edit-div {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9000;
+    width: 100%;
+    height: 100%;
+    background-color: gray;
+    opacity: 0.3;
+}
+
+#edit-form input {
+    width: 165px;
+}
+.edit-line{
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+}
+
+.edit-field-hidden{
+    display: none;
+}
