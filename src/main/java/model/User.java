@@ -1,10 +1,19 @@
 package model;
 
+import javax.persistence.*;
 import java.sql.Date;
 
+@Entity
+@Table(name="user")
 public class User {
+
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(name="name")
     private String name;
+    @Column(name="password")
     private String password;
     private Date birthday;
 
