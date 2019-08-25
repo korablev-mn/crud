@@ -15,6 +15,9 @@ public class User {
     private String name;
     @Column(name="password")
     private String password;
+//    @Past
+//    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @Column(columnDefinition = "DATE")
     private Date birthday;
 
     public User(Long id, String name, String password, Date birthday) {
