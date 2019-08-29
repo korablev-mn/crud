@@ -57,10 +57,12 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public boolean isUserExist(String name, String password) {
+        System.out.println(name + " - " + password);
         Criteria criteria = session.createCriteria(User.class);
         User user = (User) criteria.add(Restrictions.eq("name", name))
                 .add(Restrictions.eq("password", password))
                 .uniqueResult();
+        System.out.println(user.getName() + " = " + user.getPassword());
         if (user != null) {
             return true;
         } else {

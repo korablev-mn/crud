@@ -1,46 +1,66 @@
 package util;
 
+import com.mysql.jdbc.Connection;
+import dao.Impl.UserDAOJDBCImpl;
 import model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
+import java.sql.Driver;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class DBHelper {
+
+    private static DBHelper dbHelper;
     private static SessionFactory sessionFactory;
 
-    public DBHelper() {
-        sessionFactory = createSessionFactory();
+    private DBHelper() {
+    }
+
+    public static DBHelper getInstance() {
+        if (dbHelper == null) {
+            dbHelper = new DBHelper();
+        }
+        return dbHelper;
     }
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
-            sessionFactory = createSessionFactory();
+
+            try {
+                Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+                configuration.addAnnotatedClass(User.class);
+                StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
+                sessionFactory = configuration.buildSessionFactory(builder.build());
+               // проблема в этой строчке // The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
+                // Исходный сервер не нашел текущего представления для целевого ресурса или не хочет раскрыть, что он существует.
+            } catch (Exception e){
+                e.printStackTrace();
+            }
         }
         return sessionFactory;
     }
-    // @SuppressWarnings("UnusedDeclaration")
-    private static Configuration getMySqlConfiguration() {
-        Configuration configuration = new Configuration();
-        configuration.addAnnotatedClass(User.class);
 
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/db_user");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "root");
-        configuration.setProperty("useSSL", "false");
-        configuration.setProperty("autoReconnect", "true");
-        configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "create-drop");
-        return configuration;
-    }
+    public static Connection getConnection() {
+        try {
+            DriverManager.registerDriver((Driver) Class.forName("com.mysql.jdbc.Driver").newInstance());
 
-    private static SessionFactory createSessionFactory() {
-        Configuration configuration = getMySqlConfiguration();
-        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-        builder.applySettings(configuration.getProperties());
-        ServiceRegistry serviceRegistry = builder.build();
-        return configuration.buildSessionFactory(serviceRegistry);
+            StringBuilder url = new StringBuilder();
+
+            url.
+                    append("jdbc:mysql://").                //db type
+                    append("localhost:").                   //host name
+                    append("3306/").                        //port
+                    append(UserDAOJDBCImpl.DB + "?").      //db name
+                    append("user=root&").                   //login
+                    append("password=root");                //password
+
+            Connection connection = (Connection) DriverManager.getConnection(url.toString());
+            return connection;
+        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new IllegalStateException();
+        }
     }
 }

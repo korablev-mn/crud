@@ -1,14 +1,15 @@
 package model;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name="user")
-public class User {
+public class User implements Serializable {
 
     @Id
-    @Column(name="id")
+    @Column(name="id", unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name="name")
@@ -19,6 +20,9 @@ public class User {
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column(columnDefinition = "DATE")
     private Date birthday;
+
+    public User() {
+    }
 
     public User(Long id, String name, String password, Date birthday) {
         this.id = id;
