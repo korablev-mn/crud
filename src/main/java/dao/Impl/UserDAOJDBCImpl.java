@@ -1,18 +1,19 @@
 package dao.Impl;
 
+import com.mysql.jdbc.Connection;
 import dao.UserDAO;
 import model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserDAOImpl implements UserDAO {
+public class UserDAOJDBCImpl implements UserDAO{
 
     private Connection connection;
     public final static String DB = "dbuser";
     public final static String DB_TABLE = "user";
 
-    public UserDAOImpl(Connection connection) {
+    public UserDAOJDBCImpl(Connection connection) {
         this.connection = connection;
     }
 
@@ -22,7 +23,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             Statement stmt = connection.createStatement();
             stmt.execute("select * from " + DB + "." + DB_TABLE);
-            ResultSet result = stmt.getResultSet();
+            ResultSet result = ((Statement) stmt).getResultSet();
             while (result.next()) {
                 Long id = result.getLong("id");
                 String name = result.getString("name");

@@ -1,10 +1,13 @@
 package service;
 
-import dao.Impl.UserDAOImpl;
+import com.mysql.jdbc.Connection;
+import dao.Impl.UserDAOHibernateImpl;
+import dao.Impl.UserDAOJDBCImpl;
 import dao.UserDAO;
+import dao.UserDaoFactory;
 import model.User;
+import util.DBHelper;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Collection;
@@ -12,8 +15,9 @@ import java.util.Collection;
 public class UserService {
 
     private static UserService userService;
-    private final static String DB = UserDAOImpl.DB;
-    private final static String DB_TABLE = UserDAOImpl.DB_TABLE;
+    private final static String DB = UserDAOJDBCImpl.DB;
+    private final static String DB_TABLE = UserDAOJDBCImpl.DB_TABLE;
+    private static UserDaoFactory userDaoFactory = UserDaoFactory.getInstance();
 
     private UserService() {
     }
@@ -48,12 +52,14 @@ public class UserService {
     }
 
     private static UserDAO getUserDAO() {
-        return new UserDAOImpl(DbService.getMysqlConnection());
+        //return new UserDAOJDBCImpl(DBHelper.getConnection());
+        return userDaoFactory.getUserDao();
+       // return new UserDAOHibernateImpl(DBHelper.getSessionFactory().openSession());
     }
 
     public void createTable() {
         try {
-            Connection connection = DbService.getInstance().getMysqlConnection();
+            Connection connection = DBHelper.getConnection();
             Statement stmt = connection.createStatement();
             stmt.execute("CREATE TABLE if not exists " + DB + "." + DB_TABLE + " (id bigint auto_increment" +
                     ", name varchar(256) not null" +
