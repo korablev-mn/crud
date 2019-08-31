@@ -4,29 +4,33 @@ import dao.UserDAO;
 import model.User;
 import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
-
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserDAOHibernateImpl implements UserDAO {
 
+    private SessionFactory sessionFactory;
     private Session session;
-
-    public UserDAOHibernateImpl(Session session) {
-        this.session = session;
+    
+    public UserDAOHibernateImpl(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
     public Collection<User> getAllUsers() {
+        this.session = sessionFactory.openSession();
         Collection<User> users = session.createQuery("FROM User").list();
         if (users == null) {
-            return new ArrayList<>();
+            session.close();
+            return new ArrayList<User>();
         }
+        session.close();
         return users;
     }
 
     @Override
     public void addUser(User user) {
+        this.session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(user);
         transaction.commit();
@@ -35,6 +39,7 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public void updateUser(User user) {
+        this.session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(user);
         transaction.commit();
@@ -43,6 +48,7 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public void deleteUserFromID(Long id) {
+        this.session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
             Query query = session.createQuery("DELETE FROM User WHERE id=:id");
@@ -57,15 +63,16 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public boolean isUserExist(String name, String password) {
-        System.out.println(name + " - " + password);
+        this.session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(User.class);
         User user = (User) criteria.add(Restrictions.eq("name", name))
                 .add(Restrictions.eq("password", password))
                 .uniqueResult();
-        System.out.println(user.getName() + " = " + user.getPassword());
         if (user != null) {
+            session.close();
             return true;
         } else {
+            session.close();
             return false;
         }
     }
