@@ -6,6 +6,7 @@ import model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -14,6 +15,8 @@ public class DBHelper {
 
     private static DBHelper dbHelper;
     private static SessionFactory sessionFactory;
+    private static Connection connection;
+
 
     private DBHelper() {
     }
@@ -27,14 +30,12 @@ public class DBHelper {
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
-
             try {
                 Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
                 configuration.addAnnotatedClass(User.class);
                 StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder().applySettings(configuration.getProperties());
-                sessionFactory = configuration.buildSessionFactory(builder.build());
-               // проблема в этой строчке // The origin server did not find a current representation for the target resource or is not willing to disclose that one exists.
-                // Исходный сервер не нашел текущего представления для целевого ресурса или не хочет раскрыть, что он существует.
+                ServiceRegistry serviceRegistry = builder.build();
+                sessionFactory = configuration.buildSessionFactory(serviceRegistry);
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -56,7 +57,7 @@ public class DBHelper {
                     append("user=root&").                   //login
                     append("password=root");                //password
 
-            Connection connection = (Connection) DriverManager.getConnection(url.toString());
+            connection = (Connection) DriverManager.getConnection(url.toString());
             return connection;
         } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
             e.printStackTrace();

@@ -2,10 +2,6 @@ package dao;
 
 import dao.Impl.UserDAOHibernateImpl;
 import dao.Impl.UserDAOJDBCImpl;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.service.ServiceRegistry;
 import util.DBHelper;
 import java.io.*;
 import java.net.URL;
@@ -32,7 +28,7 @@ public class UserDaoFactory {
             if(type.equals("jdbc")){
                 userDAO = new UserDAOJDBCImpl(DBHelper.getConnection());
             } else if(type.equals("hibernate")) {
-                userDAO = new UserDAOHibernateImpl(DBHelper.getSessionFactory().openSession());
+                userDAO = new UserDAOHibernateImpl(DBHelper.getSessionFactory());
             } else {
              throw new IOException("Ошибка подключения к базе!");
             }
