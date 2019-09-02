@@ -20,9 +20,4 @@ public class RegistrationUserServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("jsp/user.jsp");
         dispatcher.forward(request, response);
     }
-
-    @Override
-    public void init() throws ServletException {
-//        userService.createTable();
-    }
 }

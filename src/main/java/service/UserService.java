@@ -49,18 +49,4 @@ public class UserService {
     private static UserDAO getUserDAO() {
         return userDaoFactory.getUserDao();
     }
-//    public void createTable() {
-//        try {
-//            Connection connection = DBHelper.getConnection();
-//            Statement stmt = connection.createStatement();
-//            stmt.execute("CREATE TABLE if not exists " + DB + "." + DB_TABLE + " (id bigint auto_increment" +
-//                    ", name varchar(256) not null" +
-//                    ", password VARCHAR(256) not null" +
-//                    ", date DATE not null, PRIMARY KEY (id)" +
-//                    ", UNIQUE INDEX `id_UNIQUE` (name ASC) VISIBLE) ENGINE = InnoDB DEFAULT CHARACTER SET = utf8");
-//            stmt.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
