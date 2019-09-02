@@ -11,7 +11,7 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     private SessionFactory sessionFactory;
     private Session session;
-    
+
     public UserDAOHibernateImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
     }

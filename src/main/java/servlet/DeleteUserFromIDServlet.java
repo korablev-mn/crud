@@ -1,6 +1,5 @@
 package servlet;
 
-import service.DbServiceHibernate;
 import service.UserService;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

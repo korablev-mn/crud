@@ -1,7 +1,6 @@
 package servlet;
 
 import model.User;
-import service.DbServiceHibernate;
 import service.UserService;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
