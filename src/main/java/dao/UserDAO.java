@@ -28,6 +28,11 @@ public interface UserDAO {
     void deleteUserFromID(Long id);
 
     /**
+     * @param user
+     */
+    void deleteUser(User user);
+
+    /**
      * @param name     - name of user
      * @param password - password of user
      * @return boolean
