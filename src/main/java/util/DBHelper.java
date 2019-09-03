@@ -17,7 +17,6 @@ public class DBHelper {
     private static SessionFactory sessionFactory;
     private static Connection connection;
 
-
     private DBHelper() {
     }
 

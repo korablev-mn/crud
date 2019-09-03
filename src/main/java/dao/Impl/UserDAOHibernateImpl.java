@@ -49,7 +49,7 @@ public class UserDAOHibernateImpl implements UserDAO {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            User user = (User) session.load(User.class, id);
+            User user = getUserById(id);
             session.delete(user);
         } catch (HibernateException e) {
             e.printStackTrace();
