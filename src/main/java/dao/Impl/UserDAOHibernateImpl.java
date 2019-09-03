@@ -72,13 +72,20 @@ public class UserDAOHibernateImpl implements UserDAO {
     }
 
     @Override
-    public boolean isUserExist(String name, String password) {
+    public boolean isUserExist(User user) {
         Session session = sessionFactory.openSession();
-        Query query = session.createQuery("SELECT o FROM User o WHERE name=:name AND password=:password");
-        query.setParameter("name", name);
-        query.setParameter("password", password);
-        User user = (User) query.uniqueResult();
-        if (user != null) {
+        User userParam = null;
+        Query query = session.createQuery("SELECT o FROM User o WHERE name=:name AND password=:password AND birthday=:date");
+        query.setParameter("name", user.getName());
+        query.setParameter("password", user.getPassword());
+        query.setParameter("date", user.getBirthday());
+        try {
+            userParam = (User) query.uniqueResult();
+        } catch (NonUniqueResultException e){
+            session.close();
+            return true;
+        }
+        if (userParam != null) {
             session.close();
             return true;
         } else {

@@ -29,7 +29,7 @@ public class UserService {
 
     public boolean addUser(User user) {
         getUserDAO().addUser(user);
-        if (getUserDAO().isUserExist(user.getName(), user.getPassword())) {
+        if (getUserDAO().isUserExist(user)) {
             return true;
         }
         return false;
