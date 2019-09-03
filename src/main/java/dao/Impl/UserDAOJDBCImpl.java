@@ -95,12 +95,13 @@ public class UserDAOJDBCImpl implements UserDAO{
     }
 
     @Override
-    public boolean isUserExist(String name, String password) {
-        String query = "select * from " + DB + "." + DB_TABLE + " where name=? and  password=?";
+    public boolean isUserExist(User user) {
+        String query = "select * from " + DB + "." + DB_TABLE + " where name=? and  password=? and date=?";
         try {
             PreparedStatement stm = connection.prepareStatement(query);
-            stm.setString(1, name);
-            stm.setString(2, password);
+            stm.setString(1, user.getName());
+            stm.setString(2, user.getPassword());
+            stm.setDate(3, user.getBirthday());
             ResultSet result = stm.executeQuery();
             if (result.next()) {
                 result.close();

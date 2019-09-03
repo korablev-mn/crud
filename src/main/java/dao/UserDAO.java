@@ -33,11 +33,10 @@ public interface UserDAO {
     void deleteUser(User user);
 
     /**
-     * @param name     - name of user
-     * @param password - password of user
+     * @param user
      * @return boolean
      */
-    boolean isUserExist(String name, String password);
+    boolean isUserExist(User user);
 
     /**
      * @param name     - name of user
