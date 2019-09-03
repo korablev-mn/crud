@@ -101,4 +101,42 @@ public class UserDAOJDBCImpl implements UserDAO{
         }
         return false;
     }
+
+    @Override
+    public User getUserByName(String name) {
+        String query = "select * from " + DB + "." + DB_TABLE + " where name=?";
+        User user = null;
+        try {
+            PreparedStatement stm = connection.prepareStatement(query);
+            stm.setString(1, name);
+            ResultSet result = stm.executeQuery();
+            while (result.next()) {
+                user = new User(result.getLong("id"), name, result.getString("password"), result.getDate("date"));
+            }
+            result.close();
+            stm.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        String query = "select * from " + DB + "." + DB_TABLE + " where id=?";
+        User user = null;
+        try {
+            PreparedStatement stm = connection.prepareStatement(query);
+            stm.setString(1, String.valueOf(id));
+            ResultSet result = stm.executeQuery();
+            while (result.next()) {
+                user = new User(id, result.getString("name"), result.getString("password"), result.getDate("date"));
+            }
+            result.close();
+            stm.close();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return user;
+    }
 }
