@@ -33,4 +33,16 @@ public interface UserDAO {
      * @return boolean
      */
     boolean isUserExist(String name, String password);
+
+    /**
+     * @param name     - name of user
+     * @return User
+     */
+    User getUserByName(String name);
+
+    /**
+     * @param id - id of user
+     * @return User
+     */
+    User getUserById(Long id);
 }

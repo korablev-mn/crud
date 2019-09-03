@@ -3,22 +3,20 @@ package dao.Impl;
 import dao.UserDAO;
 import model.User;
 import org.hibernate.*;
-import org.hibernate.criterion.Restrictions;
 import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserDAOHibernateImpl implements UserDAO {
 
     private SessionFactory sessionFactory;
-    private Session session;
 
-    public UserDAOHibernateImpl(SessionFactory sessionFactory){
+    public UserDAOHibernateImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
     @Override
     public Collection<User> getAllUsers() {
-        this.session = sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         Collection<User> users = session.createQuery("FROM User").list();
         if (users == null) {
             session.close();
@@ -30,7 +28,7 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public void addUser(User user) {
-        this.session = sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.save(user);
         transaction.commit();
@@ -39,7 +37,7 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public void updateUser(User user) {
-        this.session = sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         session.update(user);
         transaction.commit();
@@ -48,12 +46,11 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public void deleteUserFromID(Long id) {
-        this.session = sessionFactory.openSession();
+        Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         try {
-            Query query = session.createQuery("DELETE FROM User WHERE id=:id");
-            query.setParameter("id", id);
-            query.executeUpdate();
+            User user = (User) session.load(User.class, id);
+            session.delete(user);
         } catch (HibernateException e) {
             e.printStackTrace();
         }
@@ -63,11 +60,11 @@ public class UserDAOHibernateImpl implements UserDAO {
 
     @Override
     public boolean isUserExist(String name, String password) {
-        this.session = sessionFactory.openSession();
-        Criteria criteria = session.createCriteria(User.class);
-        User user = (User) criteria.add(Restrictions.eq("name", name))
-                .add(Restrictions.eq("password", password))
-                .uniqueResult();
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("SELECT o FROM User o WHERE name=:name AND password=:password");
+        query.setParameter("name", name);
+        query.setParameter("password", password);
+        User user = (User) query.uniqueResult();
         if (user != null) {
             session.close();
             return true;
@@ -75,5 +72,23 @@ public class UserDAOHibernateImpl implements UserDAO {
             session.close();
             return false;
         }
+    }
+
+    @Override
+    public User getUserByName(String name) {
+        Session session = sessionFactory.openSession();
+        Query query = session.createQuery("SELECT o FROM User o WHERE name=:name");
+        query.setParameter("name", name);
+        User user = (User) query.uniqueResult();
+        session.close();
+        return user;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        Session session = sessionFactory.openSession();
+        User user = (User) session.get(User.class, id);
+        session.close();
+        return user;
     }
 }

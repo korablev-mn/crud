@@ -1,6 +1,5 @@
 package service;
 
-import dao.Impl.UserDAOJDBCImpl;
 import dao.UserDAO;
 import dao.UserDaoFactory;
 import model.User;
@@ -10,8 +9,6 @@ import java.util.Collection;
 public class UserService {
 
     private static UserService userService;
-    private final static String DB = UserDAOJDBCImpl.DB;
-    private final static String DB_TABLE = UserDAOJDBCImpl.DB_TABLE;
     private static UserDaoFactory userDaoFactory = UserDaoFactory.getInstance();
 
     private UserService() {
@@ -43,6 +40,7 @@ public class UserService {
     }
 
     public void deleteUserFromID(Long id) {
+
         getUserDAO().deleteUserFromID(id);
     }
 
