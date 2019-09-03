@@ -82,6 +82,19 @@ public class UserDAOJDBCImpl implements UserDAO{
     }
 
     @Override
+    public void deleteUser(User user) {
+        try {
+            PreparedStatement stm = connection.prepareStatement("delete from " + DB + "." + DB_TABLE + " where id=? AND name=?");
+            stm.setLong(1, user.getId());
+            stm.setString(2, user.getName());
+            stm.executeUpdate();
+            stm.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public boolean isUserExist(String name, String password) {
         String query = "select * from " + DB + "." + DB_TABLE + " where name=? and  password=?";
         try {

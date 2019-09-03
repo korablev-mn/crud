@@ -40,7 +40,8 @@ public class UserService {
     }
 
     public void deleteUserFromID(Long id) {
-        getUserDAO().deleteUserFromID(id);
+        User user = getUserDAO().getUserById(id);
+        getUserDAO().deleteUser(user);
     }
 
     private static UserDAO getUserDAO() {

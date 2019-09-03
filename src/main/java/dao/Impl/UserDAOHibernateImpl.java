@@ -59,6 +59,19 @@ public class UserDAOHibernateImpl implements UserDAO {
     }
 
     @Override
+    public void deleteUser(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        try {
+            session.delete(user);
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+        transaction.commit();
+        session.close();
+    }
+
+    @Override
     public boolean isUserExist(String name, String password) {
         Session session = sessionFactory.openSession();
         Query query = session.createQuery("SELECT o FROM User o WHERE name=:name AND password=:password");
