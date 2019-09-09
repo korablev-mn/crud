@@ -1,16 +1,4 @@
-* {
-    padding: 0;
-    margin: 0;
-}
-
-html,
-body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-}
-
+/*----->>>>>>> заголовок */
 .body-cicle {
     max-width: 1200px;
     min-width: 100px;
@@ -28,59 +16,41 @@ body {
     height: 15px;
 }
 
+.body-cicle ul li:first-child {
+    width: 40px;
+    display: table-cell;
+    border-left: 1px skyblue solid;
+    border-right: 1px skyblue solid;
+    height: 15px;
+    cursor: pointer;
+}
+#add-button ul:first-child:hover {
+    background: #adacb1;
+}
+
 .body-cicle ul li p {
     display: table-cell;
     width: 1000px;
     vertical-align: center;
     text-align: center;
+    font: small Arial;
 }
-
 .color {
     background: cornflowerblue;
 }
-
-#edit:hover {
-    background: cornflowerblue;
-    cursor: pointer;
+.body-cicle ul li.pass {
+    display: none;
 }
+/*<<<<<<<<<<<<<< заголовок */
 
-/*Поля формы*/
-/*.edit-btn {*/
-/*    padding: 0;*/
-/*    border: none;*/
-/*    font: inherit;*/
-/*    color: inherit;*/
-/*    background-color: transparent;*/
-/*    display: block;*/
-/*    float: right;*/
-/*}*/
-
-.edit-field {
-    clear: both;
-    text-align: right;
-    height: 25px;
-}
-
-.edit-field label {
-    float: left;
-}
-
-.edit-btn {
-    padding: 4px 0 4px 0;
-    margin-top: 10px;
-display: inline;
-    width: 10%;
-}
-
-#edit-form {
+/*------>>>>>>>>> Поля диалоговых окон*/
+#edit-form-container:before, #add-form-container:before {
     display: inline-block;
-    padding: 10px;
-    width: 360px;
-    background: skyblue;
+    height: 100%;
+    content: '';
     vertical-align: middle;
 }
-
-#edit-form-container {
+#edit-form-container, #add-form-container {
     position: fixed;
     top: 0;
     left: 0;
@@ -90,19 +60,33 @@ display: inline;
     height: 100%;
     text-align: center;
 }
-
-#edit-message {
+#edit-form, #add-form {
+    display: inline-block;
+    padding: 10px;
+    width: 360px;
+    background: skyblue;
+    vertical-align: middle;
+}
+#edit-button:hover, #add-button:hover {
+    background: cornflowerblue;
+    cursor: pointer;
+}
+#edit-message, #add-message {
     padding-bottom: 20px;
 }
 
-#edit-form-container:before {
-    display: inline-block;
-    height: 100%;
-    content: '';
-    vertical-align: middle;
+.edit-field, .add-field {
+    clear: both;
+    text-align: right;
+    height: 25px;
 }
-
-#edit-div {
+.edit-field label, .add-field label {
+    float: left;
+}
+.edit-field-hidden {
+    display: none;
+}
+#add-div, #edit-div {
     position: fixed;
     top: 0;
     left: 0;
@@ -112,16 +96,25 @@ display: inline;
     background-color: gray;
     opacity: 0.3;
 }
-
+.edit-btn {
+    padding: 4px 0 4px 0;
+    margin-top: 10px;
+    display: inline;
+    width: 10%;
+}
+.add-btn{
+    padding: 4px;
+    margin-top: 30px;
+}
 #edit-form input {
     width: 165px;
 }
-.edit-line{
+#add-form input {
+    width: 145px;
+}
+.edit-line {
     display: inline-block;
     width: 100%;
     overflow: hidden;
 }
-
-.edit-field-hidden{
-    display: none;
-}
+/*------<<<<<<<<<< Поля диалоговых окон*/
