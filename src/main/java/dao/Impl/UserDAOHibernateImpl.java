@@ -27,19 +27,29 @@ public class UserDAOHibernateImpl implements UserDAO {
     }
 
     @Override
-    public void addUser(User user) {
+    public boolean addUser(User user) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.save(user);
+        try {
+            session.save(user);
+        } catch (HibernateException e){
+            session.close();
+            return false;
+        }
         transaction.commit();
         session.close();
+        return true;
     }
 
     @Override
     public void updateUser(User user) {
         Session session = sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
-        session.update(user);
+        try {
+            session.update(user);
+        } catch (HibernateException e){
+            e.printStackTrace();
+        }
         transaction.commit();
         session.close();
     }
@@ -75,10 +85,9 @@ public class UserDAOHibernateImpl implements UserDAO {
     public boolean isUserExist(User user) {
         Session session = sessionFactory.openSession();
         User userParam = null;
-        Query query = session.createQuery("SELECT o FROM User o WHERE name=:name AND password=:password AND birthday=:date");
-        query.setParameter("name", user.getName());
+        Query query = session.createQuery("SELECT o FROM User o WHERE login=:login AND password=:password");
+        query.setParameter("login", user.getLogin());
         query.setParameter("password", user.getPassword());
-        query.setParameter("date", user.getBirthday());
         try {
             userParam = (User) query.uniqueResult();
         } catch (NonUniqueResultException e){
@@ -108,6 +117,23 @@ public class UserDAOHibernateImpl implements UserDAO {
     public User getUserById(Long id) {
         Session session = sessionFactory.openSession();
         User user = (User) session.get(User.class, id);
+        session.close();
+        return user;
+    }
+
+    @Override
+    public User getUserByLoginAndPass(String login, String pass) {
+        Session session = sessionFactory.openSession();
+        User user = null;
+        try {
+            Query query = session.createQuery("FROM User o WHERE o.login=:login AND o.password=:password");
+            query.setParameter("login", login);
+            query.setParameter("password", pass);
+            user = (User) query.uniqueResult();
+        } catch (HibernateException e){
+            session.close();
+            return user;
+        }
         session.close();
         return user;
     }

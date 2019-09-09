@@ -1,0 +1,50 @@
+/*------>>>>>>>>> Поля диалоговых окон*/
+ #add-form-container:before {
+    display: inline-block;
+    height: 100%;
+    content: '';
+    vertical-align: middle;
+}
+ #add-form-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    display: block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+ #add-form {
+    display: inline-block;
+    padding: 10px;
+    width: 360px;
+    background: skyblue;
+    vertical-align: middle;
+}
+ #add-button:hover {
+    background: cornflowerblue;
+    cursor: pointer;
+}
+ #add-message {
+    padding-bottom: 20px;
+}
+ .add-field {
+    clear: both;
+    text-align: right;
+    height: 25px;
+}
+ .add-field label {
+    float: left;
+}
+.add-btn{
+    padding: 4px;
+    margin-top: 30px;
+}
+#add-form input {
+    width: 145px;
+}
+#add-button{
+    display: none;
+}
+/*------<<<<<<<<<< Поля диалоговых окон*/

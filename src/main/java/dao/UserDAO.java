@@ -14,8 +14,9 @@ public interface UserDAO {
 
     /**
      * @param user
+     * @return boolean
      */
-    void addUser(User user);
+    boolean addUser(User user);
 
     /**
      * @param user
@@ -49,4 +50,10 @@ public interface UserDAO {
      * @return User
      */
     User getUserById(Long id);
+    /**
+     * @param login - login of user
+     * @param pass - password of user
+     * @return User
+     */
+    User getUserByLoginAndPass(String login, String pass);
 }

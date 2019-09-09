@@ -28,11 +28,19 @@ public class UserService {
     }
 
     public boolean addUser(User user) {
-        getUserDAO().addUser(user);
-        if (getUserDAO().isUserExist(user)) {
-            return true;
+        if(getUserDAO().addUser(user)){
+            if (getUserDAO().isUserExist(user)) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
         }
-        return false;
+    }
+
+    public boolean isUserExist(User user) {
+        return getUserDAO().isUserExist(user);
     }
 
     public void updateUser(User user) {
@@ -44,7 +52,13 @@ public class UserService {
         getUserDAO().deleteUser(user);
     }
 
+    public User getUserByLoginAndPass(String login, String pass) {
+        return getUserDAO().getUserByLoginAndPass(login, pass);
+    }
+
     private static UserDAO getUserDAO() {
         return userDaoFactory.getUserDao();
     }
+
+
 }
