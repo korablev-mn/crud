@@ -19,11 +19,11 @@
     </style>
 </head>
 <body>
-<%@ include file="header.jsp" %>
-<%@ include file="context.jsp" %>
-<%@ include file="head-table.jsp" %>
-<%@ include file="show.jsp" %>
-<%@ include file="edit-window-user.jsp" %>
+<%@ include file="block/header.jsp" %>
+<%@ include file="block/context.jsp" %>
+<%@ include file="block/head-table.jsp" %>
+<%@ include file="block/show.jsp" %>
+<%@ include file="block/edit-window-user.jsp" %>
 </body>
 <script>
     <%@include file="/js/edit.js"%>
