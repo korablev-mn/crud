@@ -18,8 +18,8 @@
     </style>
 </head>
 <body>
-    <%@ include file="header.jsp" %>
-    <%@ include file="context.jsp" %>
+    <%@ include file="block/header.jsp" %>
+    <%@ include file="block/context.jsp" %>
 </body>
 <script>
     <%@include file="/js/login.js"%>

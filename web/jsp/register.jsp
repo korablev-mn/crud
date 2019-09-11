@@ -19,9 +19,9 @@
 </head>
 <body>
 <div id="add-button"></div>
-<%@ include file="header.jsp" %>
-<%@ include file="context.jsp" %>
-<%@ include file="add-window.jsp" %>
+<%@ include file="block/header.jsp" %>
+<%@ include file="block/context.jsp" %>
+<%@ include file="block/add-window.jsp" %>
 </body>
 <script defer>
     <%@include file="/js/add.js"%>

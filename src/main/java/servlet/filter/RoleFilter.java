@@ -1,4 +1,4 @@
-package servlet;
+package servlet.filter;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -7,10 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-import static java.util.Objects.nonNull;
-
-@WebFilter(filterName = "AuthFilter", urlPatterns = {"/admin/*", "/user", "/jsp/*"})
-public class AuthFilter implements Filter {
+@WebFilter(filterName = "RoleUserFilter", urlPatterns = {"/admin/*", "/user", "/jsp/*"})
+public class RoleFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final HttpServletRequest req = (HttpServletRequest) request;
@@ -18,32 +16,24 @@ public class AuthFilter implements Filter {
 
         HttpSession session = req.getSession();
 
-        if (nonNull(session) &&
-                nonNull(session.getAttribute("login")) &&
-                nonNull(session.getAttribute("password"))) {
+        String role = (String) session.getAttribute("role");
 
-            String role = (String) session.getAttribute("role");
+        if (role != null) {
 
             if (role.equals("admin")) {
                 filterChain.doFilter(request, response);
-
             } else if (role.equals("user")) {
-                    req.getRequestDispatcher("/user").forward(req, res);
-
+                req.getRequestDispatcher("/user").forward(req, res);
             } else {
-                session.setAttribute("info", "you do not have sufficient privileges");
+                session.setAttribute("info", "log in please");
                 req.getRequestDispatcher("/start").forward(req, res);
             }
         } else {
             String servletPath = req.getServletPath();
-
             if (servletPath.equals("/admin/add")) {
                 filterChain.doFilter(request, response);
-
             } else {
-                if (!session.getAttribute("info").equals("choose another login")) {
-                    session.setAttribute("info", "log in please");
-                }
+                session.getAttribute("info").equals("choose another login");
                 req.getRequestDispatcher("/start").forward(req, res);
             }
         }

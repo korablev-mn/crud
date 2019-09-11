@@ -21,12 +21,12 @@
 </head>
 <body>
 
-<%@ include file="header.jsp" %>
-<%@ include file="context.jsp" %>
-<%@ include file="head-table.jsp" %>
-<%@ include file="show.jsp" %>
-<%@ include file="add-window.jsp" %>
-<%@ include file="edit-window.jsp" %>
+<%@ include file="block/header.jsp" %>
+<%@ include file="block/context.jsp" %>
+<%@ include file="block/head-table.jsp" %>
+<%@ include file="block/show.jsp" %>
+<%@ include file="block/add-window.jsp" %>
+<%@ include file="block/edit-window.jsp" %>
 </body>
 <script>
     <%@include file="/js/add.js"%>
