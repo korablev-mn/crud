@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName = "RoleUserFilter", urlPatterns = {"/admin/*", "/user", "/jsp/*"})
+@WebFilter(filterName = "RoleUserFilter", urlPatterns = {"/admin/*"})
 public class RoleFilter implements Filter {
 
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws ServletException, IOException {
