@@ -2,7 +2,7 @@
 
     <div id="edit-button" class="body-cicle">
         <ul>
-            <li><p><img src="<c:url value="/img/pencil.gif"></c:url>"/>edit</p></li>
+            <li><p><img src="img/pencil.gif"/>edit</p></li>
             <li><p>${user.id}</p></li>
             <li><p>${user.login}</p></li>
             <li><p>******</p></li>

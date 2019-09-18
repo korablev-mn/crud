@@ -25,8 +25,8 @@ public class User implements Serializable {
     private Date birthday;
     @Column(name = "role")
     private String role;
-
     public User() {
+
     }
 
     public User(Long id, String login, String name, String password, Date birthday, String role) {
