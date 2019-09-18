@@ -2,7 +2,7 @@
     <div class="header-out" id="show-login-menu">
         ${inOut}
     </div>
-    <div><img src="<c:url value="/img/logo.gif"></c:url>"/>
+    <div><img src="img/logo.gif"/>
         <p>${status}</p>
     </div>
     <div class="info">
@@ -13,8 +13,8 @@
 <div id="login-form-container">
     <form action="/login" method="POST" id="login-form" name="val">
         <div id="login-message"></div>
-        <div class="login-field"><label for="nc">Login :</label> <input id="nc" name="login" type="text"></div>
-        <div class="login-field"><label for="pc">Password :</label> <input id="pc" name="password" type="password">
+        <div class="login-field"><label >Login :</label> <input name="login" type="text" autocomplete=username></div>
+        <div class="login-field"><label >Password :</label> <input name="password" type="password" autocomplete=current-password>
         </div>
         <input class="login-btn" type="submit" name="cmd" value="OK">
         <input class="login-btn" type="button" name="cancel" value="CANCEL">

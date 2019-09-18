@@ -8,15 +8,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request"></c:set>
-
 <html>
 <head>
     <title>User</title>
     <style>
-        <%@include file="/css/style.css"%>
-        <%@include file="/css/style-body.css"%>
-        <%@include file="/css/style-head.css"%>
-        <%@include file="/css/style-context.css"%>
+        <%@include file="css/style.css"%>
+        <%@include file="css/style-body.css"%>
+        <%@include file="css/style-head.css"%>
+        <%@include file="css/style-context.css"%>
+<%--<c:import  url="/pages/css/style.css" />--%>
+<%--<c:import  url="/pages/css/style-head.css" />--%>
+<%--<c:import  url="/pages/css/style-body.css" />--%>
+<%--<c:import  url="/pages/css/style-context.css" />--%>
     </style>
 </head>
 <body>
@@ -29,8 +32,14 @@
 <%@ include file="block/edit-window.jsp" %>
 </body>
 <script>
-    <%@include file="/js/add.js"%>
-    <%@include file="/js/edit.js"%>
-    <%@include file="/js/login.js"%>
+    <%@include file="js/add.js"%>
+    <%@include file="js/edit.js"%>
+    <%@include file="js/login.js"%>
+<%--<c:import url="/pages/js/add.js" />--%>
+
+<%--<c:import url="/pages/js/edit.js" />--%>
+
+<%--<c:import url="/pages/js/login.js" />--%>
+
 </script>
 </html>
