@@ -12,13 +12,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"config","service","dao","controller","model"})
+@ComponentScan({"config", "service", "dao", "controller", "model"})
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController("/").setViewName("index");
-       // registry.addViewController("/users").setViewName("/users");
+        registry.addViewController("/").setViewName("/index");
     }
 
     @Override
@@ -31,7 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
         resolver.setPrefix("/WEB-INF/pages/");
         resolver.setSuffix(".jsp");
-      //  resolver.setContentType("text/html; charset=utf-8");
+        resolver.setContentType("text/html; charset=utf-8");
         resolver.setRequestContextAttribute("requestContext");
         return resolver;
     }

@@ -28,17 +28,17 @@ public class HibernateConfig {
     private Environment environment;
 
     @Autowired
-    public HibernateConfig(Environment environment){
+    public HibernateConfig(Environment environment) {
         this.environment = environment;
     }
 
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(environment.getRequiredProperty("hibernate.driver"));
-        dataSource.setUrl(environment.getRequiredProperty("hibernate.url"));
-        dataSource.setUsername(environment.getRequiredProperty("hibernate.username"));
-        dataSource.setPassword(environment.getRequiredProperty("hibernate.password"));
+        dataSource.setDriverClassName(environment.getRequiredProperty("hibernate.connection.driver_class"));
+        dataSource.setUrl(environment.getRequiredProperty("hibernate.connection.url"));
+        dataSource.setUsername(environment.getRequiredProperty("hibernate.connection.username"));
+        dataSource.setPassword(environment.getRequiredProperty("hibernate.connection.password"));
         return dataSource;
     }
 
@@ -51,7 +51,7 @@ public class HibernateConfig {
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 
         entityManagerFactoryBean.setJpaVendorAdapter(adapter);
-        entityManagerFactoryBean.setJpaProperties(properties());
+        entityManagerFactoryBean.setJpaProperties(hibernateProperties());
         return entityManagerFactoryBean;
 
     }
@@ -61,20 +61,24 @@ public class HibernateConfig {
 //        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 //        sessionFactory.setDataSource(dataSource());
 //        sessionFactory.setPackagesToScan("model");
-//        sessionFactory.setHibernateProperties(properties());
+//        sessionFactory.setHibernateProperties(hibernateProperties());
 //        return sessionFactory;
 //    }
 
-    private Properties properties() {
+    private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
-        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
         properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.format_sql", environment.getRequiredProperty("hibernate.format_sql"));
+        properties.put("hibernate.use sql comments", environment.getRequiredProperty("hibernate.use.sql_comments"));
+        properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
+        properties.put("useSSL", environment.getRequiredProperty("useSSL"));
+        properties.put("autoReconnect", environment.getRequiredProperty("autoReconnect"));
         properties.put("show_sql", environment.getRequiredProperty("hibernate.show_sql"));
         return properties;
     }
-//    @Bean
+
+    //    @Bean
 //    @Autowired
 //    public HibernateTransactionManager transactionManager(SessionFactory sessionFactory){
 //        HibernateTransactionManager transactionManager = new HibernateTransactionManager();
@@ -89,7 +93,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    public PersistenceExceptionTranslationPostProcessor exceptionTranslation(){
+    public PersistenceExceptionTranslationPostProcessor exceptionTranslation() {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 }
