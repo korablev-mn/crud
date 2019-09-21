@@ -6,12 +6,10 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.util.List;
-
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -23,6 +21,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public List<User> findAllUsers() {
         List<User> users;
+        //noinspection JpaQlInspection
         Query query = (Query) entityManager.createQuery("select u from User u");
         users = query.getResultList();
         return users;
@@ -46,6 +45,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User findUserByLogin(String login) {
+        //noinspection JpaQlInspection
         Query query = (Query) entityManager.createQuery("select u from User u where u.login = :login");
         query.setParameter("login", login);
         User user = (User) query.getSingleResult();
@@ -65,9 +65,15 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUserFromID(Long id) {
-        User user = findUserById(id);
-        entityManager.remove(user);
+    @Transactional
+    public boolean deleteUserFromID(Long id) {
+        try {
+            User user = findUserById(id);
+            entityManager.remove(user);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -85,6 +91,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserByName(String name) {
+        //noinspection JpaQlInspection
         Query query = (Query) entityManager.createQuery("select u from User u where u.name = :name");
         query.setParameter("name", name);
         User user = (User) query.getSingleResult();
@@ -93,6 +100,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserById(Long id) {
+        //noinspection JpaQlInspection
         Query query = (Query) entityManager.createQuery("select u from User u where u.id = :id");
         query.setParameter("id", id);
         User user = (User) query.getSingleResult();
@@ -101,16 +109,11 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserByLoginAndPass(String login, String pass) {
+        //noinspection JpaQlInspection
         Query query = (Query) entityManager.createQuery("select u from User u where u.login = :login and u.password= :password ");
         query.setParameter("login", login);
         query.setParameter("password", pass);
         List<User> users = query.getResultList();
         return users.size() == 0 ? null : users.get(0);
-    }
-
-    @Override
-    @Transactional
-    public void deleteUser(Long id) {
-        entityManager.remove(findUserById(id));
     }
 }

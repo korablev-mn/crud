@@ -20,6 +20,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean deleteUserFromID(Long id) {
+        return userDAO.deleteUserFromID(id);
+    }
+
+    @Override
     public User getUserById(Long id) {
         return userDAO.getUserById(id);
     }

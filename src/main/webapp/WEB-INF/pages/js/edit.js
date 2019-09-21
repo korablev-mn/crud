@@ -36,7 +36,7 @@
         document.getElementById('login-e').value = login;
         document.getElementById('name-e').value = name;
         document.getElementById('pass-e').value = pass;
-        document.getElementById('date-e').value = new Date(date).toISOString().substring(0, 10);
+        document.getElementById('date-e').value = !date ? date : new Date(date).toISOString().substring(0, 10);
         document.getElementById('role-e').value = role;
 
         function complete() {

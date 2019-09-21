@@ -1,17 +1,18 @@
 package dao;
 
 import model.User;
-import org.springframework.data.repository.CrudRepository;
 
 import java.sql.Date;
 import java.util.List;
 
-public interface UserDAO  {
-//extends CrudRepository<User, Long>
-    void deleteUser(Long id);
+public interface UserDAO {
+    //extends CrudRepository<User, Long>
     User findUserById(Long id);
+
     User findUserByLogin(String login);
+
     void createNewUser(String login, String pass, String name, Date date, String role);
+
     /**
      * method for receiving all users
      *
@@ -33,8 +34,9 @@ public interface UserDAO  {
 
     /**
      * @param id - id of user
+     * @return
      */
-    void deleteUserFromID(Long id);
+    boolean deleteUserFromID(Long id);
 
     /**
      * @param user
@@ -48,7 +50,7 @@ public interface UserDAO  {
     boolean isUserExist(User user);
 
     /**
-     * @param name     - name of user
+     * @param name - name of user
      * @return User
      */
     User getUserByName(String name);
@@ -58,9 +60,10 @@ public interface UserDAO  {
      * @return User
      */
     User getUserById(Long id);
+
     /**
      * @param login - login of user
-     * @param pass - password of user
+     * @param pass  - password of user
      * @return User
      */
     User getUserByLoginAndPass(String login, String pass);
