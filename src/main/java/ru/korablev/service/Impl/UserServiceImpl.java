@@ -1,10 +1,10 @@
-package service.Impl;
+package ru.korablev.service.Impl;
 
-import dao.UserDAO;
-import model.User;
+import ru.korablev.dao.UserDAO;
+import ru.korablev.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import service.UserService;
+import ru.korablev.service.UserService;
 
 import java.util.List;
 

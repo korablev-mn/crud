@@ -1,11 +1,16 @@
-package controller;
+package ru.korablev.controller;
 
-import model.User;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import ru.korablev.model.CurrentProfile;
+import ru.korablev.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import service.UserService;
+import ru.korablev.service.FindProfileService;
+import ru.korablev.service.UserService;
+import ru.korablev.util.SecurityUtil;
+
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -19,30 +24,38 @@ public class UserController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(
+      //      @AuthenticationPrincipal CurrentProfile profile,
             Model model,
             HttpSession session) {
-        session.setAttribute("status", session.isNew() ? "user" : session.getAttribute("status"));
-        session.setAttribute("inOut", session.isNew() ? "Login" : session.getAttribute("inOut"));
+        CurrentProfile profile = SecurityUtil.getCurrentProfile();
+//        session.setAttribute("status", session.isNew() ? "user" : session.getAttribute("status"));
+//        session.setAttribute("inOut", session.isNew() ? "Login" : session.getAttribute("inOut"));
         session.setAttribute("info", session.isNew() ? "welcome" : session.getAttribute("info"));
-        model.addAttribute("status", session.getAttribute("status"));
-        model.addAttribute("inOut", session.getAttribute("inOut"));
+        if(profile !=null) {
+            model.addAttribute("inOut", "Logout");
+        } else {
+            model.addAttribute("inOut", "Login");
+        }
+   //     String status = profile.getRole();
+   //     model.addAttribute("status", status);
         model.addAttribute("info", session.getAttribute("info"));
         return "index";
     }
 
-    @GetMapping("/register")
-    public String registerPage() {
-        return "register";
-    }
-
     @GetMapping("/admin")
     public String viewAllUsers(
+            @AuthenticationPrincipal CurrentProfile profile,
             Model model,
             HttpSession session) {
         List<User> userList = userService.findAllUser();
         model.addAttribute("list", userList);
-        model.addAttribute("status", session.getAttribute("status"));
-        model.addAttribute("inOut", session.getAttribute("inOut"));
+        if(profile !=null) {
+            model.addAttribute("inOut", "Logout");
+        } else {
+            model.addAttribute("inOut", "Login");
+        }
+  //      String status = profile.getRole();
+   //    model.addAttribute("status", status);
         model.addAttribute("info", session.getAttribute("info"));
         return "user";
     }
@@ -96,49 +109,24 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String Login(
-            HttpSession session,
-            @RequestParam(value = "login") String login,
-            @RequestParam(value = "password") String pass
-    ) {
-        User user = userService.getUserByLoginAndPassword(login, pass);
-        if (user != null) {
-            String name = (user.getName() == null) ? "guest" : user.getName();
-            session.setMaxInactiveInterval(30 * 60);
-            session.setAttribute("status", user.getRole());
-            session.setAttribute("inOut", "Logout");
-            session.setAttribute("info", "welcome : " + name);
-            session.setAttribute("login", login);
-            session.setAttribute("password", pass);
-            session.setAttribute("role", user.getRole());
-            return "redirect:/admin";
-        } else
-            session.setAttribute("info", "wrong login or password");
-        return "redirect:";
-    }
-
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public String Logout(
-            HttpSession session
-    ) {
-        session.removeAttribute("password");
-        session.removeAttribute("login");
-        session.removeAttribute("role");
-        session.setAttribute("inOut", "Login");
-        session.setAttribute("role", "user");
-        session.setAttribute("status", "user");
-        session.setAttribute("info", "welcome : ");
-        return "redirect:/";
-    }
-
     @GetMapping(value = "/user")
     public String personalPage(
+            @AuthenticationPrincipal CurrentProfile profile,
             Model model,
             HttpSession session) {
-        String login = (String) session.getAttribute("login");
-        String pass = (String) session.getAttribute("password");
-        User user = userService.getUserByLoginAndPassword(login, pass);
+        if(profile !=null) {
+            model.addAttribute("inOut", "Logout");
+        } else {
+            model.addAttribute("inOut", "Login");
+        }
+ //       CurrentProfile profile = SecurityUtil.getCurrentProfile();
+    //    String login = profile.getUsername();
+        Long id = profile.getId();
+ //       String pass = profile.getPassword();
+//        String login = (String) session.getAttribute("login");
+//        String pass = (String) session.getAttribute("password");
+//        User user = userService.getUserByLoginAndPassword(login, pass);
+        User user = userService.getUserById(id);
         List<User> list = new ArrayList<>();
         list.add(user);
         model.addAttribute("list", list);

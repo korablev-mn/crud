@@ -1,6 +1,6 @@
-package service;
+package ru.korablev.service;
 
-import model.User;
+import ru.korablev.model.User;
 
 import java.util.List;
 

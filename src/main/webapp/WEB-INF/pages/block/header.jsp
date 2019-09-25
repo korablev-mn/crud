@@ -14,8 +14,9 @@
     <form action="/login" method="POST" id="login-form" name="val">
         <div id="login-message"></div>
         <div class="login-field"><label >Login :</label> <input name="login" type="text" autocomplete=username></div>
-        <div class="login-field"><label >Password :</label> <input name="password" type="password" autocomplete=current-password>
-        </div>
+        <div class="login-field"><label >Password :</label> <input name="password" type="password" autocomplete=current-password></div>
+        <br/>
+        <div class="login-field"><label> Save me :</label><input type="checkbox" name ="remember-me" value="true"> </div>
         <input class="login-btn" type="submit" name="cmd" value="OK">
         <input class="login-btn" type="button" name="cancel" value="CANCEL">
         <div><a href="/register">Registartion</a></div>

@@ -1,4 +1,4 @@
-package model;
+package ru.korablev.model;
 
 
 import javax.persistence.*;

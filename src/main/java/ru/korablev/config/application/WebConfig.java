@@ -1,23 +1,25 @@
-package config.application;
+package ru.korablev.config.application;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"config", "service", "dao", "controller", "model"})
+@ComponentScan({"ru.korablev"})
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/").setViewName("/index");
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
     }
 
     @Override
@@ -34,4 +36,6 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setRequestContextAttribute("requestContext");
         return resolver;
     }
+
+
 }
