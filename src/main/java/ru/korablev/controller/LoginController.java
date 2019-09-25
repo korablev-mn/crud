@@ -25,22 +25,20 @@ public class LoginController {
             HttpSession session,
             Model model,
             @RequestParam(value = "login") String login
-        //    @RequestParam(value = "password") String pass
     ) {
-        CurrentProfile user = SecurityUtil.getCurrentProfile();
-       // User user = userService.getUserByLoginAndPassword(login, pass);
-        if (user != null) {
-            String name = (user.getName() == null) ? "guest" : user.getName();
- //           session.setMaxInactiveInterval(30 * 60);
-//            session.setAttribute("status", user.getRole());
-//            session.setAttribute("inOut", "Logout");
+        CurrentProfile profile = SecurityUtil.getCurrentProfile();
+        if (profile != null) {
+            String name = (profile.getName() == null) ? "guest" : profile.getName();
+            session.setMaxInactiveInterval(30 * 60);
             session.setAttribute("info", "welcome : " + name);
-//            model.addAttribute("inOut", "Logout");
-//            model.addAttribute("status", user.getRole());
-//            model.addAttribute("info", "welcome : " + name);
-          //  session.setAttribute("login", login);
-           // session.setAttribute("password", pass);
-         //   session.setAttribute("role", user.getRole());
+            model.addAttribute("info", "welcome : " + name);
+            if(profile !=null) {
+                model.addAttribute("inOut", "Logout");
+                model.addAttribute("status", profile.getRole());
+            } else {
+                model.addAttribute("inOut", "Login");
+                model.addAttribute("status", "guest");
+            }
             return "/user";
         } else
             session.setAttribute("info", "wrong login or password");

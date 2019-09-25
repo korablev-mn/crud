@@ -24,20 +24,17 @@ public class UserController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(
-      //      @AuthenticationPrincipal CurrentProfile profile,
             Model model,
             HttpSession session) {
         CurrentProfile profile = SecurityUtil.getCurrentProfile();
-//        session.setAttribute("status", session.isNew() ? "user" : session.getAttribute("status"));
-//        session.setAttribute("inOut", session.isNew() ? "Login" : session.getAttribute("inOut"));
         session.setAttribute("info", session.isNew() ? "welcome" : session.getAttribute("info"));
         if(profile !=null) {
             model.addAttribute("inOut", "Logout");
+            model.addAttribute("status", profile.getRole());
         } else {
             model.addAttribute("inOut", "Login");
+            model.addAttribute("status", "guest");
         }
-   //     String status = profile.getRole();
-   //     model.addAttribute("status", status);
         model.addAttribute("info", session.getAttribute("info"));
         return "index";
     }
@@ -51,17 +48,18 @@ public class UserController {
         model.addAttribute("list", userList);
         if(profile !=null) {
             model.addAttribute("inOut", "Logout");
+            model.addAttribute("status", profile.getRole());
         } else {
             model.addAttribute("inOut", "Login");
+            model.addAttribute("status", "guest");
         }
-  //      String status = profile.getRole();
-   //    model.addAttribute("status", status);
         model.addAttribute("info", session.getAttribute("info"));
         return "user";
     }
 
     @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
     public String addUser(
+            HttpSession session,
             @RequestParam(value = "login") String login,
             @RequestParam(value = "password") String password,
             @RequestParam(value = "text", required = false) String name,
@@ -70,6 +68,7 @@ public class UserController {
         Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
         User user = new User(login, name, password, data, "user");
         userService.addUser(user);
+        session.setAttribute("info", "user +");
         return "redirect:/admin";
     }
 
@@ -116,21 +115,16 @@ public class UserController {
             HttpSession session) {
         if(profile !=null) {
             model.addAttribute("inOut", "Logout");
+            model.addAttribute("status", profile.getRole());
         } else {
             model.addAttribute("inOut", "Login");
+            model.addAttribute("status", "guest");
         }
- //       CurrentProfile profile = SecurityUtil.getCurrentProfile();
-    //    String login = profile.getUsername();
         Long id = profile.getId();
- //       String pass = profile.getPassword();
-//        String login = (String) session.getAttribute("login");
-//        String pass = (String) session.getAttribute("password");
-//        User user = userService.getUserByLoginAndPassword(login, pass);
         User user = userService.getUserById(id);
         List<User> list = new ArrayList<>();
         list.add(user);
         model.addAttribute("list", list);
-        model.addAttribute("status", session.getAttribute("status"));
         model.addAttribute("info", session.getAttribute("info"));
         return "personalPage";
     }
@@ -155,9 +149,6 @@ public class UserController {
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
             User user = new User(Long.valueOf(id), login, name, pass, data, "user");
             userService.updateUserById(user);
-            session.setAttribute("info", "user update");
-            session.setAttribute("login", login);
-            session.setAttribute("password", pass);
             session.setAttribute("info", "user update");
         }
         return "redirect:/user";
