@@ -1,6 +1,5 @@
-package config;
+package ru.korablev.config;
 
-import org.hibernate.SessionFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,20 +9,17 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-
 import javax.sql.DataSource;
 import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
 @PropertySource(value = "classpath:hibernate.properties")
-@ComponentScan({"config", "controller", "dao", "model", "service"})
+@ComponentScan({"ru.korablev"})
 public class HibernateConfig {
     private Environment environment;
 
@@ -46,10 +42,9 @@ public class HibernateConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan("model");
+        entityManagerFactoryBean.setPackagesToScan("ru.korablev.model");
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
-
         entityManagerFactoryBean.setJpaVendorAdapter(adapter);
         entityManagerFactoryBean.setJpaProperties(hibernateProperties());
         return entityManagerFactoryBean;
@@ -60,7 +55,7 @@ public class HibernateConfig {
 //    public LocalSessionFactoryBean sessionFactory() {
 //        LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 //        sessionFactory.setDataSource(dataSource());
-//        sessionFactory.setPackagesToScan("model");
+//        sessionFactory.setPackagesToScan("ru.korablev.model");
 //        sessionFactory.setHibernateProperties(hibernateProperties());
 //        return sessionFactory;
 //    }

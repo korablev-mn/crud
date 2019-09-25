@@ -1,7 +1,7 @@
-package dao.Impl;
+package ru.korablev.dao.Impl;
 
-import dao.UserDAO;
-import model.User;
+import ru.korablev.dao.UserDAO;
+import ru.korablev.model.User;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

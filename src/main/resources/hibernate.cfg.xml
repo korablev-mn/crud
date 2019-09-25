@@ -12,6 +12,6 @@
         <property name="useSSL">false</property>
         <property name="autoReconnect">true</property>
         <property name="hibernate.show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
     </session-factory>
 </hibernate-configuration>

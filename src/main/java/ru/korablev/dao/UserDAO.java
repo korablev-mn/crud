@@ -1,6 +1,6 @@
-package dao;
+package ru.korablev.dao;
 
-import model.User;
+import ru.korablev.model.User;
 
 import java.sql.Date;
 import java.util.List;
