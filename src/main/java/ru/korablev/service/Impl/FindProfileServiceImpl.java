@@ -19,16 +19,16 @@ public class FindProfileServiceImpl implements UserDetailsService, FindProfileSe
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = findProfile(s);
-        if(user !=null){
+        if (user != null) {
             return new CurrentProfile(user);
         } else {
-           throw new UsernameNotFoundException("Profile not found by " + s);
+            throw new UsernameNotFoundException("Profile not found by " + s);
         }
     }
 
     @Override
     public User findProfile(String login) {
-        User user = (User)userDAO.findUserByLogin(login);
+        User user = (User) userDAO.findUserByLogin(login);
         return user;
     }
 }
