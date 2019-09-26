@@ -65,6 +65,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID");
+        http.exceptionHandling()
+                .accessDeniedPage("/");  // переопределил 403 страницу доступа
         http.rememberMe()
                 .rememberMeParameter("remember-me")
                 .key("resume-online")
