@@ -16,21 +16,11 @@ import org.springframework.security.web.authentication.rememberme.InMemoryTokenR
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
-@Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.jdbcAuthentication().dataSource(dataSource)
-//                .withDefaultSchema()
-//                .withUser("user").password("password").roles("USER")
-//                .and()
-//                .withUser("admin").password("password").roles("USER", "ADMIN");
-//    }
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
@@ -56,7 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin","/admin/add","/admin/del","/user","/user/*").hasAuthority("admin")
+                .antMatchers("/admin","/admin/add","/admin/del").hasAuthority("admin")
                 .antMatchers( "/user","/user/*").hasAnyAuthority("admin","user")
                 .anyRequest().permitAll();
         http.sessionManagement()
@@ -82,7 +72,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
     }
 
-    private SessionRegistry sessionRegistry() {
+    @Bean
+    SessionRegistry sessionRegistry() {
         return new SessionRegistryImpl();
     }
 }

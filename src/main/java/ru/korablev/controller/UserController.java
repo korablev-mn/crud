@@ -27,8 +27,8 @@ public class UserController {
             Model model,
             HttpSession session) {
         CurrentProfile profile = SecurityUtil.getCurrentProfile();
-        session.setAttribute("info", session.isNew() ? "welcome" : session.getAttribute("info"));
-        if(profile !=null) {
+        session.setAttribute("info", " welcome ");
+        if (profile != null) {
             model.addAttribute("inOut", "Logout");
             model.addAttribute("status", profile.getRole());
         } else {
@@ -46,14 +46,16 @@ public class UserController {
             HttpSession session) {
         List<User> userList = userService.findAllUser();
         model.addAttribute("list", userList);
-        if(profile !=null) {
+        if (profile != null) {
             model.addAttribute("inOut", "Logout");
             model.addAttribute("status", profile.getRole());
+            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info")==null ? "" : session.getAttribute("info")));
         } else {
             model.addAttribute("inOut", "Login");
             model.addAttribute("status", "guest");
         }
         model.addAttribute("info", session.getAttribute("info"));
+        session.removeAttribute("info");
         return "user";
     }
 
@@ -68,7 +70,7 @@ public class UserController {
         Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
         User user = new User(login, name, password, data, "user");
         userService.addUser(user);
-        session.setAttribute("info", "user +");
+        session.setAttribute("info", " user +");
         return "redirect:/admin";
     }
 
@@ -93,7 +95,7 @@ public class UserController {
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
             User user = new User(Long.valueOf(id), login, name, pass, data, role);
             userService.updateUserById(user);
-            session.setAttribute("info", "user update");
+            session.setAttribute("info", " user update");
             return "redirect:/admin";
         }
     }
@@ -104,7 +106,7 @@ public class UserController {
             @RequestParam(value = "id") String id
     ) {
         userService.deleteUserFromID(Long.valueOf(id));
-        session.setAttribute("info", "deleted");
+        session.setAttribute("info", " deleted user ");
         return "redirect:/admin";
     }
 
@@ -113,9 +115,10 @@ public class UserController {
             @AuthenticationPrincipal CurrentProfile profile,
             Model model,
             HttpSession session) {
-        if(profile !=null) {
+        if (profile != null) {
             model.addAttribute("inOut", "Logout");
             model.addAttribute("status", profile.getRole());
+            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info")==null ? "" : session.getAttribute("info")));
         } else {
             model.addAttribute("inOut", "Login");
             model.addAttribute("status", "guest");
@@ -126,6 +129,7 @@ public class UserController {
         list.add(user);
         model.addAttribute("list", list);
         model.addAttribute("info", session.getAttribute("info"));
+        session.removeAttribute("info");
         return "personalPage";
     }
 
@@ -149,7 +153,7 @@ public class UserController {
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
             User user = new User(Long.valueOf(id), login, name, pass, data, "user");
             userService.updateUserById(user);
-            session.setAttribute("info", "user update");
+            session.setAttribute("info", " user update");
         }
         return "redirect:/user";
     }
