@@ -5,11 +5,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.korablev.dao.UserDAO;
 import ru.korablev.model.CurrentProfile;
 import ru.korablev.model.User;
 import ru.korablev.service.FindProfileService;
 
+@Transactional
 @Service
 public class FindProfileServiceImpl implements UserDetailsService, FindProfileService {
 

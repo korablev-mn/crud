@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-
 @EnableWebMvc
 @Configuration
 @ComponentScan({"ru.korablev"})
@@ -36,6 +35,4 @@ public class WebConfig implements WebMvcConfigurer {
         resolver.setRequestContextAttribute("requestContext");
         return resolver;
     }
-
-
 }
