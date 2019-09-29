@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name="\"User\"")
+@Table(name = "\"User\"")
 public class User implements Serializable {
 
     @Id
@@ -30,7 +30,7 @@ public class User implements Serializable {
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles = new HashSet<>();
+    private Set<Role> roles = new HashSet<Role>();
 
     public User() {
     }
@@ -44,18 +44,18 @@ public class User implements Serializable {
         this.roles = roleAdd(role);
     }
 
-    private Set<Role> roleAdd(String role) {
-        Set<Role> setRole = this.roles;
-        setRole.add(new Role(role));
-        return setRole;
-    }
-
     public User(String login, String name, String password, Date birthday, String role) {
         this.login = login;
         this.name = name;
         this.password = password;
         this.birthday = birthday;
         this.roles = roleAdd(role);
+    }
+
+    private Set<Role> roleAdd(String role) {
+        Set<Role> setRole = this.roles;
+        setRole.add(new Role(role));
+        return setRole;
     }
 
     public Long getId() {
@@ -97,19 +97,6 @@ public class User implements Serializable {
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
-
-//    public enum ROLE {
-//        ADMIN("admin"), USER("user"), UNKNOWN("guest");
-//
-//        private String role;
-//
-//        ROLE(String admin) {
-//        }
-//
-//        public String getRole() {
-//            return role;
-//        }
-//    }
 
     public Set<Role> getRole() {
         return roles;

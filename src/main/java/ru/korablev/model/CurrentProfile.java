@@ -1,10 +1,5 @@
 package ru.korablev.model;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Set;
 
 public class CurrentProfile extends org.springframework.security.core.userdetails.User {
@@ -13,19 +8,11 @@ public class CurrentProfile extends org.springframework.security.core.userdetail
     private final Set<Role> role;
 
 
-    public CurrentProfile(ru.korablev.model.User user) {//Collections.singleton(new SimpleGrantedAuthority(user.getRole())   AuthorityRoleClass(user.getRole()) Collections.singleton(new SimpleGrantedAuthority(user.getRole()))
+    public CurrentProfile(ru.korablev.model.User user) {
         super(user.getLogin(), user.getPassword(), true, true, true, true, user.getRole());
         this.id = user.getId();
         this.name = user.getName();
         this.role = user.getRole();
-    }
-
-    private static Collection<? extends GrantedAuthority> AuthorityRoleClass(Set<Role> roles) {
-        Set<GrantedAuthority> setRole = new HashSet<>();
-        for (Role role : roles) {
-            setRole.add(new SimpleGrantedAuthority(role.getRole()));
-        }
-        return setRole;
     }
 
     public String getName() {
