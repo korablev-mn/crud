@@ -1,5 +1,6 @@
 package ru.korablev.service.Impl;
 
+import org.springframework.transaction.annotation.Transactional;
 import ru.korablev.dao.UserDAO;
 import ru.korablev.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import ru.korablev.service.UserService;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 

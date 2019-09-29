@@ -4,9 +4,11 @@ package ru.korablev.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name="\"User\"")
 public class User implements Serializable {
 
     @Id
@@ -23,10 +25,14 @@ public class User implements Serializable {
     //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column(columnDefinition = "DATE")
     private Date birthday;
-    @Column(name = "role")
-    private String role;
-    public User() {
 
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    private Set<Role> roles = new HashSet<>();
+
+    public User() {
     }
 
     public User(Long id, String login, String name, String password, Date birthday, String role) {
@@ -35,7 +41,13 @@ public class User implements Serializable {
         this.name = name;
         this.password = password;
         this.birthday = birthday;
-        this.role = role;
+        this.roles = roleAdd(role);
+    }
+
+    private Set<Role> roleAdd(String role) {
+        Set<Role> setRole = this.roles;
+        setRole.add(new Role(role));
+        return setRole;
     }
 
     public User(String login, String name, String password, Date birthday, String role) {
@@ -43,7 +55,7 @@ public class User implements Serializable {
         this.name = name;
         this.password = password;
         this.birthday = birthday;
-        this.role = role;
+        this.roles = roleAdd(role);
     }
 
     public Long getId() {
@@ -86,31 +98,24 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
-    public enum ROLE {
-        ADMIN("admin"), USER("user"), UNKNOWN("guest");
+//    public enum ROLE {
+//        ADMIN("admin"), USER("user"), UNKNOWN("guest");
+//
+//        private String role;
+//
+//        ROLE(String admin) {
+//        }
+//
+//        public String getRole() {
+//            return role;
+//        }
+//    }
 
-        private String role;
-
-        ROLE(String admin) {
-        }
-
-        public String getRole() {
-            return role;
-        }
+    public Set<Role> getRole() {
+        return roles;
     }
 
-    public String getRole() {
-        if (role.equals("")) {
-            role = ROLE.USER.getRole();
-        }
-        return role;
-    }
-
-    public void setRole(String role) {
-        if (role.equals(ROLE.ADMIN.getRole())) {
-            this.role = ROLE.ADMIN.getRole();
-        } else {
-            this.role = ROLE.USER.getRole();
-        }
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

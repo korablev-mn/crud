@@ -31,7 +31,7 @@ public class LoginController {
             model.addAttribute("info", "welcome : " + name);
             if(profile !=null) {
                 model.addAttribute("inOut", "Logout");
-                model.addAttribute("status", profile.getRole());
+                model.addAttribute("status", profile.getRoleString());
             } else {
                 model.addAttribute("inOut", "Login");
                 model.addAttribute("status", "guest");

@@ -9,7 +9,7 @@
             <li class="pass"><p>${user.password}</p></li>
             <li><p>${user.name}</p></li>
             <li><p>${user.birthday}</p></li>
-            <li><p>${user.role}</p></li>
+<%--            <li><p>${user.roles}</p></li>--%>
         </ul>
     </div>
 
