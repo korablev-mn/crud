@@ -14,24 +14,14 @@ public class Role implements GrantedAuthority, Serializable {
 
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "role")
     private String role;
 
-//    @ManyToMany(mappedBy = "roles")
-//    @JoinColumn(name = "user_id")
     @ManyToMany(mappedBy = "roles")
-    private Set<User> user = new HashSet<>();
-
-//    public Set<User> getUser() {
-//        return users;
-//    }
-
-//    public void setUser(Set<User> user) {
-//        this.users = user;
-//    }
+    private Set<User> user = new HashSet<User>();
 
     public Long getId() {
         return id;
@@ -66,11 +56,13 @@ public class Role implements GrantedAuthority, Serializable {
                 Objects.equals(user, role1.user);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, role, user);
+    public Set<User> getUser() {
+        return user;
     }
 
+    public void setUser(Set<User> user) {
+        this.user = user;
+    }
 
     @Override
     public String toString() {
@@ -79,6 +71,11 @@ public class Role implements GrantedAuthority, Serializable {
                 ", role='" + role + '\'' +
                 ", user=" + user +
                 '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, role, user);
     }
 
     @Override
