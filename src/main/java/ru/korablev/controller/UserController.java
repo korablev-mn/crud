@@ -151,7 +151,7 @@ public class UserController {
             session.setAttribute("info", "you do not have sufficient privileges");
         } else {
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
-            User user = new User(Long.valueOf(id), login, name, pass, data, "user");
+            User user = new User(Long.valueOf(id), login, name, pass, data, role);
             userService.updateUserById(user);
             session.setAttribute("info", " user update");
         }

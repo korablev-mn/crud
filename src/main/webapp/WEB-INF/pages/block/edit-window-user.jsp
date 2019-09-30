@@ -9,7 +9,8 @@
         <div class="edit-field"><label for="date-e">Birthday :</label> <input id="date-e" name="date" type="date"></div>
         <div class="edit-field role-personal"><label for="role-e">Role :</label>
             <select id="role-e" name="role">
-                <option value="user">user</option>
+                <option value="user" selected>user</option>
+<%--                <option value="admin">admin</option>--%>
             </select>
         </div>
         <div class="edit-line">

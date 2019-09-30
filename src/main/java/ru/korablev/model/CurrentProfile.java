@@ -9,10 +9,10 @@ public class CurrentProfile extends org.springframework.security.core.userdetail
 
 
     public CurrentProfile(ru.korablev.model.User user) {
-        super(user.getLogin(), user.getPassword(), true, true, true, true, user.getRole());
+        super(user.getLogin(), user.getPassword(), true, true, true, true, user.getRoles());
         this.id = user.getId();
         this.name = user.getName();
-        this.role = user.getRole();
+        this.role = user.getRoles();
     }
 
     public String getName() {
@@ -38,6 +38,7 @@ public class CurrentProfile extends org.springframework.security.core.userdetail
     public String getRoleString() {
         StringBuilder str = new StringBuilder();
         for (Role role:this.role) {
+            str.append("-");
             str.append(role.getRole());
         }
         return String.valueOf(str);

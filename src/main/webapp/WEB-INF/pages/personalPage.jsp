@@ -35,6 +35,7 @@
 <script>
     <%@include file="js/edit.js"%>
     <%@include file="js/login.js"%>
+    <%@include file="js/select.js"%>
 <%--<c:import url="/pages/js/edit.js" />--%>
 <%--<c:import url="/pages/js/login.js" />--%>
 </script>
