@@ -7,8 +7,9 @@
 --%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ attribute name="user.roles" required="true" rtexprvalue="true" type="java.util.Collection" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="cp" value="${pageContext.request.servletContext.contextPath}" scope="request"></c:set>
+
 <html>
 <head>
     <title>User</title>
@@ -36,6 +37,7 @@
     <%@include file="js/add.js"%>
     <%@include file="js/edit.js"%>
     <%@include file="js/login.js"%>
+    <%@include file="js/select.js"%>
 <%--<c:import url="/pages/js/add.js" />--%>
 
 <%--<c:import url="/pages/js/edit.js" />--%>

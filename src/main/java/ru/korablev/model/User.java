@@ -26,7 +26,7 @@ public class User implements Serializable {
     @Column(columnDefinition = "DATE")
     private Date birthday;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
@@ -98,7 +98,7 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
-    public Set<Role> getRole() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
