@@ -1,9 +1,11 @@
 package ru.korablev.dao;
 
+import ru.korablev.model.Role;
 import ru.korablev.model.User;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 public interface UserDAO {
     //extends CrudRepository<User, Long>
@@ -11,7 +13,7 @@ public interface UserDAO {
 
     User findUserByLogin(String login);
 
-    void createNewUser(String login, String pass, String name, Date date, String role);
+    void createNewUser(String login, String pass, String name, Date date, Set<Role> roles);
 
     /**
      * method for receiving all users

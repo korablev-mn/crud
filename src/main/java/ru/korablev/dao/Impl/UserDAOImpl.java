@@ -1,6 +1,7 @@
 package ru.korablev.dao.Impl;
 
 import ru.korablev.dao.UserDAO;
+import ru.korablev.model.Role;
 import ru.korablev.model.User;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Date;
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -54,8 +56,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public void createNewUser(String login, String name, String pass, Date date, String role) {
-        entityManager.persist(new User(login, name, pass, date, role));
+    public void createNewUser(String login, String name, String pass, Date date, Set<Role> roles) {
+        entityManager.persist(new User(login, name, pass, date, roles));
     }
 
     @Override

@@ -10,7 +10,7 @@
         <div class="edit-field role-personal"><label for="role-e">Role :</label>
             <select id="role-e" name="role">
                 <option value="user" selected>user</option>
-<%--                <option value="admin">admin</option>--%>
+                <option value="admin">admin</option>
             </select>
         </div>
         <div class="edit-line">

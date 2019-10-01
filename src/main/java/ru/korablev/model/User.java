@@ -5,6 +5,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -26,36 +27,30 @@ public class User implements Serializable {
     @Column(columnDefinition = "DATE")
     private Date birthday;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST})
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
-    private Set<Role> roles = new HashSet<Role>();
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(Long id, String login, String name, String password, Date birthday, String role) {
+    public User(Long id, String login, String name, String password, Date birthday, Set<Role> roles) {
         this.id = id;
         this.login = login;
         this.name = name;
         this.password = password;
         this.birthday = birthday;
-        this.roles = roleAdd(role);
+        this.roles = roles;
     }
 
-    public User(String login, String name, String password, Date birthday, String role) {
+    public User(String login, String name, String password, Date birthday, Set<Role> roles) {
         this.login = login;
         this.name = name;
         this.password = password;
         this.birthday = birthday;
-        this.roles = roleAdd(role);
-    }
-
-    private Set<Role> roleAdd(String role) {
-        Set<Role> setRole = this.roles;
-        setRole.add(new Role(role));
-        return setRole;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -104,5 +99,35 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id) &&
+                Objects.equals(login, user.login) &&
+                Objects.equals(name, user.name) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(birthday, user.birthday) &&
+                Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, login, name, password, birthday);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", birthday=" + birthday +
+                ", roles=" + roles +
+                '}';
     }
 }
