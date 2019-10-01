@@ -2,25 +2,32 @@ package ru.korablev.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import ru.korablev.model.CurrentProfile;
+import ru.korablev.model.Role;
 import ru.korablev.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.korablev.service.FindProfileService;
+import ru.korablev.service.RoleService;
 import ru.korablev.service.UserService;
 import ru.korablev.util.SecurityUtil;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home(
@@ -68,7 +75,10 @@ public class UserController {
             @RequestParam(value = "date", required = false) String date
     ) {
         Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
-        User user = new User(login, name, password, data, "user");
+        Set<Role> roles = new HashSet<>();
+        Role role = roleService.getRoleByName("user");
+        roles.add(role);
+        User user = new User(login, name, password, data, roles);
         userService.addUser(user);
         session.setAttribute("info", " user +");
         return "redirect:/admin";
@@ -92,8 +102,11 @@ public class UserController {
             delUser(session, id);
             return "redirect:/admin";
         } else {
+            Set<Role> roles = new HashSet<Role>();
+            Role roleUser = roleService.getRoleByName(role);
+            roles.add(roleUser);
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
-            User user = new User(Long.valueOf(id), login, name, pass, data, role);
+            User user = new User(Long.valueOf(id), login, name, pass, data, roles);
             userService.updateUserById(user);
             session.setAttribute("info", " user update");
             return "redirect:/admin";
@@ -150,8 +163,11 @@ public class UserController {
         if (value.equals("DELETE")) {
             session.setAttribute("info", "you do not have sufficient privileges");
         } else {
+            Set<Role> roles = new HashSet<Role>();
+            Role roleUser = roleService.getRoleByName(role);
+            roles.add(roleUser);
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
-            User user = new User(Long.valueOf(id), login, name, pass, data, role);
+            User user = new User(Long.valueOf(id), login, name, pass, data, roles);
             userService.updateUserById(user);
             session.setAttribute("info", " user update");
         }

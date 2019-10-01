@@ -11,17 +11,15 @@
             <li class="pass"><p>${user.password}</p></li>
             <li><p>${user.name}</p></li>
             <li><p>${user.birthday}</p></li>
-            <li><p>
-            <select id="role-e">
+            <li>
 
-    <c:forEach items="${user.roles}" var="param">
+<%--    <c:forEach items="${user.roles}" var="param">--%>
 
-                <option value="${param.role}">${param.role}</option>
+                <p>${user.roles}</p><br/>
 
-    </c:forEach>
+<%--    </c:forEach>--%>
 
-            </select>
-            </p></li>
+            </li>
         </ul>
     </div>
 
