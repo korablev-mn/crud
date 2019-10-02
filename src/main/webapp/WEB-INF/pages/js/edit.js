@@ -6,8 +6,8 @@
         let pass = event.currentTarget.children[0].children[4].textContent;
         let name = event.currentTarget.children[0].children[5].textContent;
         let date = event.currentTarget.children[0].children[6].textContent;
-        let role = event.currentTarget.children[0].children[7].textContent;
-        showEdit("Update / Delete user", id, login, name, pass, date, role);
+        // let role = event.currentTarget.children[0].children[7].textContent;
+        showEdit("Update / Delete user", id, login, name, pass, date);
     }
 
     let mod = document.querySelectorAll('#edit-button');
@@ -27,7 +27,7 @@
         document.body.style.overflowY = '';
     }
 
-    function showEdit(text, id, login, name, pass, date, role) {
+    function showEdit(text, id, login, name, pass, date) {
         showCover();
         let form = document.getElementById('edit-form');
         let container = document.getElementById('edit-form-container');
@@ -37,7 +37,7 @@
         document.getElementById('name-e').value = name;
         document.getElementById('pass-e').value = pass;
         document.getElementById('date-e').value = !date ? date : new Date(date).toISOString().substring(0, 10);
-        document.getElementById('role-e').value = role;
+        // document.getElementById('role-e').value = role;
 
         function complete() {
             hideCover();

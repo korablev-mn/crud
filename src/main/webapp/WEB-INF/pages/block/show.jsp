@@ -11,15 +11,15 @@
             <li class="pass"><p>${user.password}</p></li>
             <li><p>${user.name}</p></li>
             <li><p>${user.birthday}</p></li>
-            <li>
+            <li><p>
 
-<%--    <c:forEach items="${user.roles}" var="param">--%>
+    <c:forEach items="${user.roles}" var="roles">
 
-                <p>${user.roles}</p><br/>
+            <c:out value="${roles['role']}"/>
 
-<%--    </c:forEach>--%>
+    </c:forEach>
 
-            </li>
+            </p></li>
         </ul>
     </div>
 

@@ -15,9 +15,6 @@
         <%@include file="css/style.css"%>
         <%@include file="css/style-head.css"%>
         <%@include file="css/style-context.css"%>
-<%--    <c:import  url="../WEB-INF/pages/css/style.css" />--%>
-<%--    <c:import  url="./../pages/css/style-head.css" />--%>
-<%--    <c:import  url="${pageContext.request.contextPath}/resources/css/style-context.css" />--%>
     </style>
 </head>
 <body>
