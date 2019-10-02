@@ -3,9 +3,12 @@ package ru.korablev.dao.Impl;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.korablev.dao.RoleDAO;
 import ru.korablev.model.Role;
+import ru.korablev.util.AuthorityRole;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -17,8 +20,9 @@ public class RoleDAOImpl implements RoleDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
-    public Role findRoleByName(String role) {
+    public Role findRoleByName(AuthorityRole role) {
         try {
             //noinspection JpaQlInspection
             Query query = (Query) entityManager.createQuery("select u from Role u where u.role = :role");
@@ -31,7 +35,7 @@ public class RoleDAOImpl implements RoleDAO {
     }
 
     @Override
-    public boolean isExistRole(String role) {
+    public boolean isExistRole(AuthorityRole role) {
         if (findRoleByName(role) != null) {
             return true;
         }

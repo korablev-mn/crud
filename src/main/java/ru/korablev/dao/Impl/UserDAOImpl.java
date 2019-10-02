@@ -1,5 +1,6 @@
 package ru.korablev.dao.Impl;
 
+import org.springframework.transaction.annotation.Propagation;
 import ru.korablev.dao.UserDAO;
 import ru.korablev.model.Role;
 import ru.korablev.model.User;
@@ -30,10 +31,10 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public boolean addUser(User user) {
         try {
-            entityManager.persist(user);
+            entityManager.merge(user);
         } catch (Exception e) {
             return false;
         }
@@ -79,6 +80,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    @Transactional
     public void deleteUser(User user) {
         entityManager.remove(user);
     }
