@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.korablev.service.FindProfileService;
 import ru.korablev.service.RoleService;
 import ru.korablev.service.UserService;
+import ru.korablev.util.AuthorityRole;
 import ru.korablev.util.SecurityUtil;
 
 import javax.servlet.http.HttpSession;
@@ -76,7 +77,7 @@ public class UserController {
     ) {
         Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
         Set<Role> roles = new HashSet<>();
-        Role role = roleService.getRoleByName("user");
+        Role role = roleService.getRoleByName(AuthorityRole.user);
         roles.add(role);
         User user = new User(login, name, password, data, roles);
         userService.addUser(user);
@@ -96,14 +97,14 @@ public class UserController {
             @RequestParam(value = "role") String role
     ) {
         if (role.equals("")) {
-            role = "user";
+            role = String.valueOf(AuthorityRole.user);
         }
         if (value.equals("DELETE")) {
             delUser(session, id);
             return "redirect:/admin";
         } else {
             Set<Role> roles = new HashSet<Role>();
-            Role roleUser = roleService.getRoleByName(role);
+            Role roleUser = roleService.getRoleByName(AuthorityRole.valueOf(role));
             roles.add(roleUser);
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
             User user = new User(Long.valueOf(id), login, name, pass, data, roles);
@@ -158,13 +159,13 @@ public class UserController {
             @RequestParam(value = "role") String role
     ) {
         if (role.equals("")) {
-            role = "user";
+            role = String.valueOf(AuthorityRole.user);
         }
         if (value.equals("DELETE")) {
             session.setAttribute("info", "you do not have sufficient privileges");
         } else {
             Set<Role> roles = new HashSet<Role>();
-            Role roleUser = roleService.getRoleByName(role);
+            Role roleUser = roleService.getRoleByName(AuthorityRole.valueOf(role));
             roles.add(roleUser);
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
             User user = new User(Long.valueOf(id), login, name, pass, data, roles);

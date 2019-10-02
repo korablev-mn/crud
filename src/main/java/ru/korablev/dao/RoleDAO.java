@@ -1,10 +1,12 @@
 package ru.korablev.dao;
 
 import ru.korablev.model.Role;
+import ru.korablev.util.AuthorityRole;
 
 public interface RoleDAO {
 
-    Role findRoleByName(String role);
+    Role findRoleByName(AuthorityRole role);
 
-    boolean isExistRole(String role);
+    boolean isExistRole(AuthorityRole role);
+
 }

@@ -9,7 +9,6 @@ import ru.korablev.service.UserService;
 
 import java.util.List;
 
-@Transactional
 @Service
 public class UserServiceImpl implements UserService {
 

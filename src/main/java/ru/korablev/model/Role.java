@@ -1,13 +1,14 @@
 package ru.korablev.model;
 
 import org.springframework.security.core.GrantedAuthority;
+import ru.korablev.util.AuthorityRole;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "role")
+@Table(name = "Role")
 public class Role implements GrantedAuthority, Serializable {
 
     @Id
@@ -15,32 +16,33 @@ public class Role implements GrantedAuthority, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "role", unique = true)
-    private String role;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private AuthorityRole role;
 
 //    @ManyToMany(mappedBy = "roles")
 //    private Set<User> user = new HashSet<User>();
 
-    public Long getId() {
-        return id;
-    }
-
     public Role() {
     }
 
-    public Role(String role) {
+    public Role(AuthorityRole role) {
         this.role = role;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getRole() {
+    public AuthorityRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(AuthorityRole role) {
         this.role = role;
     }
 
@@ -58,7 +60,7 @@ public class Role implements GrantedAuthority, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         Role role1 = (Role) o;
         return Objects.equals(id, role1.id) &&
-                Objects.equals(role, role1.role);
+                role == role1.role;
     }
 
     @Override
@@ -68,6 +70,6 @@ public class Role implements GrantedAuthority, Serializable {
 
     @Override
     public String getAuthority() {
-        return getRole();
+        return String.valueOf(getRole());
     }
 }
