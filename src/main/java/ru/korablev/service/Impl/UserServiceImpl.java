@@ -1,6 +1,5 @@
 package ru.korablev.service.Impl;
 
-import org.springframework.transaction.annotation.Transactional;
 import ru.korablev.dao.UserDAO;
 import ru.korablev.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean updateUserById(User user) {
+    public void updateUserById(User user) {
         userDAO.updateUser(user);
-        return true;
     }
 }

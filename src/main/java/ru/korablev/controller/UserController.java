@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.korablev.service.FindProfileService;
 import ru.korablev.service.RoleService;
 import ru.korablev.service.UserService;
 import ru.korablev.util.AuthorityRole;
 import ru.korablev.util.SecurityUtil;
-
 import javax.servlet.http.HttpSession;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -57,7 +55,7 @@ public class UserController {
         if (profile != null) {
             model.addAttribute("inOut", "Logout");
             model.addAttribute("status", profile.getRole());
-            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info")==null ? "" : session.getAttribute("info")));
+            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info") == null ? "" : session.getAttribute("info")));
         } else {
             model.addAttribute("inOut", "Login");
             model.addAttribute("status", "guest");
@@ -67,7 +65,7 @@ public class UserController {
         return "user";
     }
 
-    @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
+    @PostMapping(value = "/admin/add")
     public String addUser(
             HttpSession session,
             @RequestParam(value = "login") String login,
@@ -85,7 +83,7 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
+    @PostMapping(value = "/admin/update")
     public String updateAdmin(
             HttpSession session,
             @RequestParam(value = "id") String id,
@@ -114,7 +112,7 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "/admin/del", method = RequestMethod.POST)
+    @PostMapping(value = "/admin/del")
     public String delUser(
             HttpSession session,
             @RequestParam(value = "id") String id
@@ -132,7 +130,7 @@ public class UserController {
         if (profile != null) {
             model.addAttribute("inOut", "Logout");
             model.addAttribute("status", profile.getRole());
-            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info")==null ? "" : session.getAttribute("info")));
+            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info") == null ? "" : session.getAttribute("info")));
         } else {
             model.addAttribute("inOut", "Login");
             model.addAttribute("status", "guest");
@@ -147,7 +145,7 @@ public class UserController {
         return "personalPage";
     }
 
-    @RequestMapping(value = "/user/update", method = RequestMethod.POST)
+    @PostMapping(value = "/user/update")
     public String updateUser(
             HttpSession session,
             @RequestParam(value = "id") String id,

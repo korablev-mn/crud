@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.korablev.dao.RoleDAO;
 import ru.korablev.model.Role;
 import ru.korablev.util.AuthorityRole;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 

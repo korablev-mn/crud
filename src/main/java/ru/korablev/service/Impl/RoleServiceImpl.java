@@ -17,12 +17,12 @@ public class RoleServiceImpl implements RoleService {
     public Role getRoleByName(AuthorityRole role) {
         try {
             Role roleUser = roleDAO.findRoleByName(role);
-            if(roleUser == null){
-                return new Role(AuthorityRole.user);
+            if (roleUser == null) {
+                return new Role(role);
             }
             return roleUser;
         } catch (Exception e) {
-            return new Role(AuthorityRole.user);
+            return new Role(role);
         }
     }
 }
