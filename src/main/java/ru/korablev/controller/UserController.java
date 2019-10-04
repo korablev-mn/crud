@@ -78,7 +78,6 @@ public class UserController {
 
     @PostMapping(value = "/admin/add")
     public String addUser(
-            HttpSession session,
             @RequestParam(value = "login") String login,
             @RequestParam(value = "password") String password,
             @RequestParam(value = "text", required = false) String name,
