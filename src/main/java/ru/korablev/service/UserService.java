@@ -10,6 +10,8 @@ public interface UserService {
 
     User getUserById(Long id);
 
+    User getUserByLogin(String login);
+
     User getUserByLoginAndPassword(String login, String pass);
 
     List<User> findAllUser();

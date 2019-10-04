@@ -1,8 +1,6 @@
 package ru.korablev.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import ru.korablev.util.AuthorityRole;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -17,8 +15,7 @@ public class Role implements GrantedAuthority, Serializable {
     private Long id;
 
     @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private AuthorityRole role;
+    private String role;
 
 //    @ManyToMany(mappedBy = "roles")
 //    private Set<User> user = new HashSet<User>();
@@ -26,7 +23,7 @@ public class Role implements GrantedAuthority, Serializable {
     public Role() {
     }
 
-    public Role(AuthorityRole role) {
+    public Role(String role) {
         this.role = role;
     }
 
@@ -38,11 +35,11 @@ public class Role implements GrantedAuthority, Serializable {
         this.id = id;
     }
 
-    public AuthorityRole getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(AuthorityRole role) {
+    public void setRole(String role) {
         this.role = role;
     }
 

@@ -1,4 +1,4 @@
-package ru.korablev.config;
+package ru.korablev.init;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
