@@ -1,13 +1,14 @@
-package ru.korablev.config;
+package ru.korablev.init;
 
-import ru.korablev.config.application.WebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+import ru.korablev.config.HibernateConfig;
+import ru.korablev.config.WebConfig;
 
 
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { WebConfig.class};
+        return new Class[] { WebConfig.class, HibernateConfig.class};
     }
 
     @Override

@@ -1,7 +1,8 @@
 package ru.korablev.controller;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import ru.korablev.model.CurrentProfile;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import ru.korablev.model.Role;
 import ru.korablev.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.korablev.service.RoleService;
 import ru.korablev.service.UserService;
-import ru.korablev.util.AuthorityRole;
-import ru.korablev.util.SecurityUtil;
 import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,40 +28,51 @@ public class UserController {
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @GetMapping(value = "/")
     public String home(
+            @AuthenticationPrincipal String login,
             Model model,
             HttpSession session) {
-        CurrentProfile profile = SecurityUtil.getCurrentProfile();
         session.setAttribute("info", " welcome ");
-        if (profile != null) {
-            model.addAttribute("inOut", "Logout");
-            model.addAttribute("status", profile.getRole());
-        } else {
+        if (login != null) {
             model.addAttribute("inOut", "Login");
-            model.addAttribute("status", "guest");
+        } else {
+            model.addAttribute("inOut", "Logout");
         }
-        model.addAttribute("info", session.getAttribute("info"));
         return "index";
+    }
+
+    @PostMapping(value = "/login")
+    public String Login(
+            @RequestParam(value = "login") String login
+    ) {
+        return "redirect:/";
+    }
+
+    @PostMapping(value = "/logout")
+    public String Logout(
+            HttpSession session,
+            Model model) {
+        session.removeAttribute("password");
+        session.removeAttribute("login");
+        session.removeAttribute("role");
+        session.setAttribute("inOut", "Login");
+        session.setAttribute("role", "user");
+        session.setAttribute("status", "user");
+        model.addAttribute("inOut", "Login");
+        return "redirect:/";
+    }
+
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register";
     }
 
     @GetMapping("/admin")
     public String viewAllUsers(
-            @AuthenticationPrincipal CurrentProfile profile,
-            Model model,
-            HttpSession session) {
+            Model model) {
         List<User> userList = userService.findAllUser();
         model.addAttribute("list", userList);
-        if (profile != null) {
-            model.addAttribute("inOut", "Logout");
-            model.addAttribute("status", profile.getRole());
-            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info") == null ? "" : session.getAttribute("info")));
-        } else {
-            model.addAttribute("inOut", "Login");
-            model.addAttribute("status", "guest");
-        }
-        model.addAttribute("info", session.getAttribute("info"));
-        session.removeAttribute("info");
         return "user";
     }
 
@@ -75,11 +86,10 @@ public class UserController {
     ) {
         Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
         Set<Role> roles = new HashSet<>();
-        Role role = roleService.getRoleByName(AuthorityRole.user);
+        Role role = roleService.getRoleByName("user");
         roles.add(role);
         User user = new User(login, name, password, data, roles);
         userService.addUser(user);
-        session.setAttribute("info", " user +");
         return "redirect:/admin";
     }
 
@@ -95,53 +105,39 @@ public class UserController {
             @RequestParam(value = "role") String role
     ) {
         if (role.equals("")) {
-            role = String.valueOf(AuthorityRole.user);
+            role = "user";
         }
         if (value.equals("DELETE")) {
-            delUser(session, id);
+            delUser(id);
             return "redirect:/admin";
         } else {
             Set<Role> roles = new HashSet<Role>();
-            Role roleUser = roleService.getRoleByName(AuthorityRole.valueOf(role));
+            Role roleUser = roleService.getRoleByName(role);
             roles.add(roleUser);
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
             User user = new User(Long.valueOf(id), login, name, pass, data, roles);
             userService.updateUserById(user);
-            session.setAttribute("info", " user update");
             return "redirect:/admin";
         }
     }
 
     @PostMapping(value = "/admin/del")
     public String delUser(
-            HttpSession session,
             @RequestParam(value = "id") String id
     ) {
         userService.deleteUserFromID(Long.valueOf(id));
-        session.setAttribute("info", " deleted user ");
         return "redirect:/admin";
     }
 
     @GetMapping(value = "/user")
     public String personalPage(
-            @AuthenticationPrincipal CurrentProfile profile,
-            Model model,
-            HttpSession session) {
-        if (profile != null) {
-            model.addAttribute("inOut", "Logout");
-            model.addAttribute("status", profile.getRole());
-            session.setAttribute("info", profile.getName() + " - " + (session.getAttribute("info") == null ? "" : session.getAttribute("info")));
-        } else {
-            model.addAttribute("inOut", "Login");
-            model.addAttribute("status", "guest");
-        }
-        Long id = profile.getId();
-        User user = userService.getUserById(id);
+           Principal profile,
+            Model model) {
+        String login = profile.getName();
+        User user = userService.getUserByLogin(login);
         List<User> list = new ArrayList<>();
         list.add(user);
         model.addAttribute("list", list);
-        model.addAttribute("info", session.getAttribute("info"));
-        session.removeAttribute("info");
         return "personalPage";
     }
 
@@ -157,18 +153,17 @@ public class UserController {
             @RequestParam(value = "role") String role
     ) {
         if (role.equals("")) {
-            role = String.valueOf(AuthorityRole.user);
+            role = "user";
         }
         if (value.equals("DELETE")) {
             session.setAttribute("info", "you do not have sufficient privileges");
         } else {
             Set<Role> roles = new HashSet<Role>();
-            Role roleUser = roleService.getRoleByName(AuthorityRole.valueOf(role));
+            Role roleUser = roleService.getRoleByName(role);
             roles.add(roleUser);
             Date data = date.equals("") ? null : java.sql.Date.valueOf(date);
             User user = new User(Long.valueOf(id), login, name, pass, data, roles);
             userService.updateUserById(user);
-            session.setAttribute("info", " user update");
         }
         return "redirect:/user";
     }
