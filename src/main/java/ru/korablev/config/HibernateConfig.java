@@ -43,7 +43,7 @@ public class HibernateConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
         entityManagerFactoryBean.setDataSource(dataSource());
-        entityManagerFactoryBean.setPackagesToScan("ru.korablev");
+        entityManagerFactoryBean.setPackagesToScan("ru.korablev.model");
         entityManagerFactoryBean.setPersistenceProviderClass(HibernatePersistenceProvider.class);
         HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
         entityManagerFactoryBean.setJpaVendorAdapter(adapter);
